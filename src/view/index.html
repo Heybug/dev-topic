@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>柚子舍专题设计</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../public/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="../public/css/weiui/weui.min.css">
+    <link rel="stylesheet" href="../public/jquery-weui/jquery-weui.min.css">
+</head>
+<!--<body leftmargin=0 topmargin=0 oncontextmenu='return false' ondragstart='return false' onselectstart='return false' onbeforecopy='return false'>-->
+<body>
+
+<!--背景组件-->
+<template id="bg">
+    <div v-for="bg in items" class="u-img">
+        <a v-for="hot in bg.hot" href="javascript:;" class="a-hot-spots absolute" style="width: 200px; height: 100px;top: calc(50% - 50px); left: -100px;">
+            {{ hot.w }}
+        </a>
+        <img class="u-bg-img" src="' + src + bgImgIndex++ + '.jpg" alt="">
+    </div>
+</template>
+
+<!--背景属性组件-->
+<template id="temp-bg">
+    <div>
+        <div class="weui_cells_title">图片</div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea name="img" class="weui_textarea" placeholder="请输入图片地址" rows="3" v-model="item.imgUrl">{{item.imgUrl}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<!--热区属性组件-->
+<template id="temp-hot">
+    <div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">宽度</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="tel" placeholder="请输入宽度" v-model="item.w" :value="item.w">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">高度</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="tel" placeholder="请输入宽度" v-model="item.h" :value="item.h">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">横坐标</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="tel" placeholder="请输入宽度" v-model="item.x" :value="item.x">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">纵坐标</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="tel" placeholder="请输入宽度" v-model="item.y" :value="item.y">
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">颜色</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="text" placeholder="请输入颜色值" v-model="item.activeColor" :value="item.activeColor">
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell weui_cell_switch">
+                <div class="weui_cell_hd weui_cell_primary">商品</div>
+                <div class="weui_cell_ft">
+                    <input class="weui_switch" type="checkbox" v-model="item.goods.status" :disabled="item.coupon.status">
+                </div>
+            </div>
+            <div class="weui_cell" v-if="item.goods.status">
+                <div class="weui_cell_hd"><label class="weui_label">ID</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="tel" placeholder="请输入商品ID" v-model="item.goods.id" :value="item.goods.id">
+                </div>
+            </div>
+            <div class="weui_cell weui_cell_switch">
+                <div class="weui_cell_hd weui_cell_primary">优惠券</div>
+                <div class="weui_cell_ft">
+                    <input class="weui_switch" type="checkbox" v-model="item.coupon.status" :disabled="item.goods.status">
+                </div>
+            </div>
+            <div class="weui_cell" v-if="item.coupon.status">
+                <div class="weui_cell_hd"><label class="weui_label">ID</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="tel" placeholder="请输入优惠券ID" v-model="item.coupon.id" :value="item.coupon.id">
+                </div>
+            </div>
+            <div class="weui_cell weui_cell_switch">
+                <div class="weui_cell_hd weui_cell_primary">添加类</div>
+                <div class="weui_cell_ft">
+                    <input class="weui_switch" type="checkbox" v-model="item.customClass.status">
+                </div>
+            </div>
+            <div class="weui_cell" v-if="item.customClass.status">
+                <div class="weui_cell_hd"><label class="weui_label">类名</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="tel" placeholder="请输入类名" v-model="item.customClass.class" :value="item.customClass.class">
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell" v-if="!item.goods.status && !item.coupon.status && !item.customClass.status">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea class="weui_textarea" placeholder="请输入超链接" rows="3" v-model="item.href">{{item.href}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<div class="box" id="app">
+    <div class="top">
+        <span class="logo">
+            柚子舍专题编辑-Bate
+        </span>
+        <button class="ui-button ui-corner-all ui-widget" @click="exportCode"><i class="iconfont">&#xe605;</i>导出代码
+        </button>
+        <button class="updata-img ui-button ui-corner-all ui-widget"><i class="iconfont">&#xe605;</i>上传图片</button>
+        <button class="delDom ui-button ui-corner-all ui-widget"><i class="iconfont">&#xe605;</i>删除</button>
+        <button class="ui-button ui-corner-all ui-widget" @click="importCode"><i class="iconfont">&#xe605;</i>导入
+        </button>
+        <button class="ui-button ui-corner-all ui-widget" @click="saveCode"><i class="iconfont">&#xe605;</i>保存</button>
+        <button class="ui-button ui-corner-all ui-widget" @click="(editType =! editType)">
+            <i class="iconfont">&#xe605;</i>手机版
+        </button>
+    </div>
+    <div class="ruler"></div>
+    <div class="rulerV"></div>
+    <div class="tool">
+        <i class="iconfont add-bg-img" @click="add(1)">&#xe606;</i>
+        <i class="iconfont hot-spots" @click="add(0,tempItem)">&#xe602;</i>
+        <!--<i class="iconfont add-img">&#xe600;</i>-->
+        <!--<i class="iconfont">&#xe601;</i>-->
+    </div>
+    <div class="tool-panel">
+        <div class="title">
+            <!--<a href="javascript:;"><i class="iconfont">&#xe604;</i></a>-->
+            参数设置
+        </div>
+        <div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell weui_cell_switch">
+                    <div class="weui_cell_hd weui_cell_primary">组图</div>
+                    <div class="weui_cell_ft">
+                        <input class="weui_switch" type="checkbox" v-model="imgPath.status">
+                    </div>
+                </div>
+                <div class="weui_cell" v-if="imgPath.status">
+                    <div class="weui_cell_hd"><label class="weui_label">path</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea class="weui_textarea" placeholder="请输入图片地址" rows="3" v-model="imgPath.path">{{imgPath.path}}</textarea>
+                    </div>
+                </div>
+            </div>
+            <component :is="currentView" :item="tempItem,index" keep-alive></component>
+        </div>
+    </div>
+
+    <div class="main " v-bind:class="{ m_mode: editType }">
+        <div class="u-box">
+            <div v-for="(bg,bgIndex) in items" class="u-img">
+                <a v-for="(hot,hotIndex) in bg.hot" v-on:mouseover="funHot(bg,hotIndex)" href="javascript:;" class="a-hot-spots absolute"
+                   v-bind:style="{ width: hot.w + 'px', height: hot.h + 'px', top: hot.x + 'px', left: hot.y + 'px', background: hot.activeColor }"></a>
+                <img @click="cl(bg)" class="u-bg-img" :src="bg.imgUrl" alt="">
+            </div>
+            <div class="u-clear"></div>
+        </div>
+    </div>
+</div>
+
+<script src="../public/js/jquery-2.1.4.js"></script>
+<script src="../public/js/jquery-ui.min.js"></script>
+<script src="../public/jquery-weui/jquery-weui.min.js"></script>
+<script src="../public/js/underscore.js"></script>
+<script src="../public/js/vue.min.js"></script>
+<script src="/js/index.js"></script>
+<script src="/js/drag.js"></script>
+<script src="/js/ruler.js"></script>
+<script>
+
+</script>
+</body>
+</html>

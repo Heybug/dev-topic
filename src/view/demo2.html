@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>demo2</title>
+    <link rel="stylesheet" href="../public/css/jquery-ui.min.css">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        li {
+            border: 1px solid red;
+            width: 500px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hot" style="width: 100px;border: 1px solid red;">
+    <h1>hello</h1>
+</div>
+<div class="container-fluid" id="app">
+    <button type="button" class="btn" @click="add(1)">add</button>
+    <ul>
+        <li v-for="item in items">
+            <c1 :item="item"></c1>
+            <button type="button" class="btn btn-danger btn-xs" @click="add(2,item)">addHot</button>
+            <button type="button" class="btn btn-danger btn-xs" @click="remove(item)">remove</button>
+            <div v-for="hot in item.hot" class="hot">
+                {{ hot.w }}
+            </div>
+        </li>
+    </ul>
+    <div>{{ items }}</div>
+</div>
+
+<template id="c1">
+    <input type="text" v-model="item.value"/>
+</template>
+
+<script src="../public/js/jquery-2.1.4.js"></script>
+<script src="../public/js/jquery-ui.min.js"></script>
+<script src="../public/js/vue.min.js"></script>
+</body>
+</html>
+<script>
+    jQuery(function ($) {
+        $(".hot").draggable();
+        $(".hot").resizable();
+    });
+
+    Vue.component('c1', {
+        props: ['item'],
+        template: '#c1'
+    });
+
+    var vm = new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                items: []
+            }
+        },
+        methods: {
+            add: function (type, hot) {
+                if (type == 1) {
+                    this.items.push({
+                        index: this.items.length,
+                        value: 223,
+                        hot: [{
+                            w: 33
+                        }]
+                    });
+                } else {
+                    console.log(hot);
+                    hot.hot.push({
+                        w: 2
+                    });
+                }
+                $(".hot").draggable();
+                $(".hot").resizable();
+            },
+            remove: function (item) {
+                console.log(item);
+                var i = this.items.indexOf(item);
+                this.items.splice(i, 1)
+            }
+        }
+    })
+</script>
