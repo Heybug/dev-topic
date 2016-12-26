@@ -52,7 +52,7 @@ body {
 .box .top {
   position: absolute;
   width: 100%;
-  height: 80px;
+  height: 60px;
   z-index: 1;
   background: #303030;
 }
@@ -64,7 +64,7 @@ body {
 }
 .box .top .logo {
   font-size: 30px;
-  line-height: 80px;
+  line-height: 60px;
   color: #fff;
   margin-left: 20px;
 }
@@ -73,7 +73,7 @@ body {
   cursor: pointer;
   width: 100%;
   height: 18px;
-  top: 80px;
+  top: 60px;
   margin-left: 35px;
   background: #303030 url(../public/images/ruler.gif);
   background-position: 1px -82px;
@@ -87,7 +87,7 @@ body {
   position: fixed;
   width: 1px;
   height: 100%;
-  top: 80px;
+  top: 60px;
   left: -1px;
   background-color: green;
   transition: left .3s;
@@ -97,7 +97,7 @@ body {
   position: absolute;
   width: 35px;
   height: 100%;
-  top: 80px;
+  top: 60px;
   background: #303030;
 }
 .box .tool .iconfont {
@@ -117,7 +117,7 @@ body {
 .box .main {
   position: absolute;
   width: calc(100% - 335px);
-  top: 98px;
+  top: 78px;
   left: 35px;
   bottom: 0;
   overflow-y: auto;
@@ -179,16 +179,16 @@ body {
   clear: both;
 }
 .box .m_mode {
-  width: 320px;
-  height: 568px;
-  left: calc((100% - 589px) / 2);
-  top: calc(50% - 284px);
+  width: 414px;
+  height: 736px;
+  left: calc((100% - 679px) / 2);
+  top: calc(50% - 329px);
 }
 .box .tool-panel {
-  width: 300px;
-  height: calc(100% - 98px);
+  width: 298px;
+  height: 100%;
   position: fixed;
-  top: 98px;
+  top: 78px;
   right: 0px;
   z-index: 10;
   border: 1px solid #303030;
@@ -198,7 +198,7 @@ body {
   width: 80px !important;
 }
 .box .tool-panel .title {
-  width: 300px;
+  width: 298px;
   height: 30px;
   background-color: #303030;
   color: #eceff1;
@@ -213,7 +213,7 @@ body {
 }
 .box button {
   float: right;
-  margin: 22.5px !important;
+  margin: 10.5px !important;
   height: 35px;
   padding: 0 1em !important;
 }
@@ -233,13 +233,15 @@ body {
   border-color: #000000 !important;
   background-color: #303030 !important;
 }
+/*
 @media screen and (min-width: 1024px) {
-  .weui_dialog {
-    width: 70% !important;
-  }
+    .weui_dialog {
+        width: 70% !important;
+    }
 }
+
 @media screen and (min-width: 1024px) {
-  .weui_dialog {
-    left: 15% !important;
-  }
-}
+    .weui_dialog {
+        left: 15% !important;
+    }
+}*/

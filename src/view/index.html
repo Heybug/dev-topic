@@ -126,9 +126,9 @@
         <button class="ui-button ui-corner-all ui-widget" @click="exportCode"><i class="iconfont">&#xe605;</i>导出代码
         </button>
         <button class="updata-img ui-button ui-corner-all ui-widget"><i class="iconfont">&#xe605;</i>上传图片</button>
-        <button class="delDom ui-button ui-corner-all ui-widget"><i class="iconfont">&#xe605;</i>删除</button>
-        <button class="ui-button ui-corner-all ui-widget" @click="importCode"><i class="iconfont">&#xe605;</i>导入
-        </button>
+        <!--<button class="delDom ui-button ui-corner-all ui-widget"><i class="iconfont">&#xe605;</i>删除</button>-->
+        <button class="ui-button ui-corner-all ui-widget" @click="delTopic">删除当前编辑</button>
+        <!--<button class="ui-button ui-corner-all ui-widget" @click="importCode"><i class="iconfont">&#xe605;</i>导入</button>-->
         <button class="ui-button ui-corner-all ui-widget" @click="saveCode"><i class="iconfont">&#xe605;</i>保存</button>
         <button class="ui-button ui-corner-all ui-widget" @click="(editType =! editType)">
             <i class="iconfont">&#xe605;</i>手机版
@@ -149,14 +149,24 @@
         </div>
         <div>
             <div class="weui_cells weui_cells_form">
+                <div class="weui_cell weui_cell_select">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select class="weui_select" name="save-list" @change="importCode($('select[name=save-list]').val())">
+                            <option selected="" value="">历史编辑</option>
+                            <option v-for="(item, index) in saveList" :value="item">{{ item }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="weui_cells weui_cells_form">
                 <div class="weui_cell weui_cell_switch">
                     <div class="weui_cell_hd weui_cell_primary">组图</div>
                     <div class="weui_cell_ft">
                         <input class="weui_switch" type="checkbox" v-model="imgPath.status">
                     </div>
                 </div>
-                <div class="weui_cell" v-if="imgPath.status">
-                    <div class="weui_cell_hd"><label class="weui_label">path</label></div>
+                <div class="weui_cell" v-if="imgPath.status" v-cloak>
+                    <div class="weui_cell_hd"><label class="weui_label">地址</label></div>
                     <div class="weui_cell_bd weui_cell_primary">
                         <textarea class="weui_textarea" placeholder="请输入图片地址" rows="3" v-model="imgPath.path">{{imgPath.path}}</textarea>
                     </div>
@@ -166,11 +176,11 @@
         </div>
     </div>
 
-    <div class="main " v-bind:class="{ m_mode: editType }">
+    <div class="main " :class="{ m_mode: editType }">
         <div class="u-box">
             <div v-for="(bg,bgIndex) in items" class="u-img">
-                <a v-for="(hot,hotIndex) in bg.hot" v-on:mouseover="funHot(bg,hotIndex)" href="javascript:;" class="a-hot-spots absolute"
-                   v-bind:style="{ width: hot.w + 'px', height: hot.h + 'px', top: hot.x + 'px', left: hot.y + 'px', background: hot.activeColor }"></a>
+                <a v-for="(hot,hotIndex) in bg.hot" @mouseover="funHot(bg,hotIndex)" href="javascript:;" class="a-hot-spots absolute"
+                   :style="{ width: hot.w + 'px', height: hot.h + 'px', top: hot.x + 'px', left: hot.y + 'px', background: hot.activeColor }"></a>
                 <img @click="cl(bg)" class="u-bg-img" :src="bg.imgUrl" alt="">
             </div>
             <div class="u-clear"></div>

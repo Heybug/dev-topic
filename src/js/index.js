@@ -2,9 +2,6 @@
  * Created by yqiu on 16-7-23.
  */
 
-// true:PC模式, false:mobile模式
-// var editType = true;
-
 /** 扩展组件 **/
 // 背景
 var tempBg = Vue.extend({
@@ -22,18 +19,17 @@ var i = 0;
 
 var vm = new Vue({
     el: '#app',
-    data: function () {
-        return {
-            imgPath: {
-                status: false,
-                path: "http://dev.uzise.com/topic/uzise1111/img/pc_,jpg"
-            },
-            editType: false,
-            index: 0,
-            items: [], // 所有数据
-            tempItem: [], // 背景数据
-            hotItem: [], // 热区数据
-            currentView: 'tab01' // 属性栏
+    data: {
+        index: 0,
+        editType: false,
+        currentView: 'tab01', // 属性栏
+        items: [], // 所有数据
+        tempItem: [], // 背景数据
+        hotItem: [], // 热区数据
+        saveList: [], // 已保存的编辑
+        imgPath: {
+            status: false,
+            path: "http://dev.uzise.com/topic/uzise1111/img/pc_,jpg"
         }
     },
     //局部注册组件
@@ -47,6 +43,8 @@ var vm = new Vue({
                 this.toggleTabs("tempBg");
                 return false;
             }
+
+            this.saveList = localStorage.getItem("saveList").split(",");
         },
         //绑定tab的切换事件
         toggleTabs: function (tempText) {
@@ -72,7 +70,7 @@ var vm = new Vue({
                     h: 100,
                     x: 100,
                     y: -200,
-                    href: "/goods-000.html",
+                    href: "",
                     activeColor: "rgba(58,248,51,0.4)",
                     goods: {
                         status: false,
@@ -121,14 +119,28 @@ var vm = new Vue({
             });
         },
         saveCode: function () {
-            if (this.items.length > 0) {
-                var code = JSON.stringify(this.items);
-                localStorage.setItem("code", code);
-                $.toast("已保存临时编辑", "text");
-            }
+            $.prompt({
+                title: '专题名称',
+                input: $('select[name=save-list]').val(),
+                empty: false, // 是否允许为空
+                onOK: function (input) {
+                    if (vm._data.items.length > 0) {
+                        var code = JSON.stringify(vm._data.items);
+
+                        vm._data.saveList.push(input);
+                        localStorage.setItem("saveList", _.uniq(vm._data.saveList));
+                        localStorage.setItem(input, code);
+                        console.log(localStorage.getItem(input));
+
+                        // 更新列表
+                        vm._data.saveList = localStorage.getItem("saveList").split(",");
+                        $.toast("已保存临时编辑", "text");
+                    }
+                }
+            });
         },
-        importCode: function () {
-            var code = localStorage.getItem("code");
+        importCode: function (listName) {
+            var code = localStorage.getItem(listName);
             if (code.length > 0) {
                 this.items = JSON.parse(code);
                 this.tempItem = this.items[0];
@@ -190,6 +202,17 @@ var vm = new Vue({
             $.modal({
                 title: "Code",
                 text: code
+            });
+        },
+        delTopic: function () {
+            var name = $('select[name=save-list]').val();
+            name && $.confirm({
+                title: '是否删除当前编辑记录',
+                text: '删除后无法恢复',
+                onOK: function () {
+                    this.saveList = _.without(vm._data.saveList, name);
+                    localStorage.setItem("saveList", _.uniq(vm._data.saveList));
+                }
             });
         }
     }
