@@ -89,7 +89,7 @@ body {
   height: 100%;
   top: 60px;
   left: -1px;
-  background-color: green;
+  background-color: #3af833;
   transition: left .3s;
   z-index: 10;
 }
@@ -183,6 +183,13 @@ body {
   height: 736px;
   left: calc((100% - 679px) / 2);
   top: calc(50% - 329px);
+}
+.box .m_mode .u-img {
+  position: relative;
+}
+.box .m_mode .u-img .u-bg-img {
+  display: block;
+  width: 100%;
 }
 .box .tool-panel {
   width: 298px;

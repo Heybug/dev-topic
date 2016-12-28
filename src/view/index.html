@@ -2,7 +2,7 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>柚子舍专题设计</title>
+    <title>专题布局</title>
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../public/css/jquery-ui.min.css">
     <link rel="stylesheet" href="../public/css/weiui/weui.min.css">
@@ -54,13 +54,13 @@
             <div class="weui_cell">
                 <div class="weui_cell_hd"><label class="weui_label">横坐标</label></div>
                 <div class="weui_cell_bd weui_cell_primary">
-                    <input class="weui_input" type="tel" placeholder="请输入宽度" v-model="item.x" :value="item.x">
+                    <input class="weui_input" type="tel" placeholder="请输入横坐标" v-model="item.x" :value="item.x">
                 </div>
             </div>
             <div class="weui_cell">
                 <div class="weui_cell_hd"><label class="weui_label">纵坐标</label></div>
                 <div class="weui_cell_bd weui_cell_primary">
-                    <input class="weui_input" type="tel" placeholder="请输入宽度" v-model="item.y" :value="item.y">
+                    <input class="weui_input" type="tel" placeholder="请输入纵坐标" v-model="item.y" :value="item.y">
                 </div>
             </div>
             <div class="weui_cell">
@@ -121,30 +121,27 @@
 <div class="box" id="app">
     <div class="top">
         <span class="logo">
-            柚子舍专题编辑-Bate
+            专题布局
         </span>
-        <button class="ui-button ui-corner-all ui-widget" @click="exportCode"><i class="iconfont">&#xe605;</i>导出代码
+        <button class="ui-button ui-corner-all ui-widget" @click="exportCode">导出代码
         </button>
-        <button class="updata-img ui-button ui-corner-all ui-widget"><i class="iconfont">&#xe605;</i>上传图片</button>
-        <!--<button class="delDom ui-button ui-corner-all ui-widget"><i class="iconfont">&#xe605;</i>删除</button>-->
+        <button class="updata-img ui-button ui-corner-all ui-widget">上传图片</button>
+        <!--<button class="delDom ui-button ui-corner-all ui-widget">删除</button>-->
         <button class="ui-button ui-corner-all ui-widget" @click="delTopic">删除当前编辑</button>
-        <!--<button class="ui-button ui-corner-all ui-widget" @click="importCode"><i class="iconfont">&#xe605;</i>导入</button>-->
-        <button class="ui-button ui-corner-all ui-widget" @click="saveCode"><i class="iconfont">&#xe605;</i>保存</button>
-        <button class="ui-button ui-corner-all ui-widget" @click="(editType =! editType)">
-            <i class="iconfont">&#xe605;</i>手机版
-        </button>
+        <!--<button class="ui-button ui-corner-all ui-widget" @click="importCode">导入</button>-->
+        <button class="ui-button ui-corner-all ui-widget" @click="saveCode">保存</button>
+        <button class="ui-button ui-corner-all ui-widget" @click="(editType =! editType)">手机版</button>
     </div>
     <div class="ruler"></div>
     <div class="rulerV"></div>
     <div class="tool">
         <i class="iconfont add-bg-img" @click="add(1)">&#xe606;</i>
         <i class="iconfont hot-spots" @click="add(0,tempItem)">&#xe602;</i>
-        <!--<i class="iconfont add-img">&#xe600;</i>-->
-        <!--<i class="iconfont">&#xe601;</i>-->
+        <i class="iconfont add-img">&#xe600;</i>
+        <i class="iconfont">&#xe601;</i>
     </div>
     <div class="tool-panel">
         <div class="title">
-            <!--<a href="javascript:;"><i class="iconfont">&#xe604;</i></a>-->
             参数设置
         </div>
         <div>
@@ -168,7 +165,7 @@
                 <div class="weui_cell" v-if="imgPath.status" v-cloak>
                     <div class="weui_cell_hd"><label class="weui_label">地址</label></div>
                     <div class="weui_cell_bd weui_cell_primary">
-                        <textarea class="weui_textarea" placeholder="请输入图片地址" rows="3" v-model="imgPath.path">{{imgPath.path}}</textarea>
+                        <textarea class="weui_textarea" placeholder="格式: 图片路径+文件名,扩展名" rows="3" v-model="imgPath.path">{{imgPath.path}}</textarea>
                     </div>
                 </div>
             </div>
@@ -177,13 +174,18 @@
     </div>
 
     <div class="main " :class="{ m_mode: editType }">
-        <div class="u-box">
+        <div class="u-box" v-if="!editType">
             <div v-for="(bg,bgIndex) in items" class="u-img">
                 <a v-for="(hot,hotIndex) in bg.hot" @mouseover="funHot(bg,hotIndex)" href="javascript:;" class="a-hot-spots absolute"
-                   :style="{ width: hot.w + 'px', height: hot.h + 'px', top: hot.x + 'px', left: hot.y + 'px', background: hot.activeColor }"></a>
+                   :style="{ width: hot.w + 'px', height: hot.h + 'px', top: hot.y + 'px', left: hot.x + 'px', background: hot.activeColor }"></a>
                 <img @click="cl(bg)" class="u-bg-img" :src="bg.imgUrl" alt="">
             </div>
             <div class="u-clear"></div>
+        </div>
+        <div v-else v-for="(bg,bgIndex) in items" class="u-img">
+            <a v-for="(hot,hotIndex) in bg.hot" @mouseover="funHot(bg,hotIndex)" href="javascript:;" class="a-hot-spots absolute"
+               :style="{ width: hot.w + 'px', height: hot.h + 'px', top: hot.y + 'px', left: hot.x + 'px', background: hot.activeColor }"></a>
+            <img @click="cl(bg)" class="u-bg-img" :src="bg.imgUrl" alt="">
         </div>
     </div>
 </div>
