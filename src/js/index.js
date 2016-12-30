@@ -16,7 +16,7 @@ var tempHot = Vue.extend({
 });
 /** 扩展组件end **/
 
-var i = 0;
+var i = 4;
 
 var vm = new Vue({
     el: '#app',
@@ -54,21 +54,28 @@ var vm = new Vue({
         },
         add: function (type, hotData) {
             if (type == 1) {
-                // for (var j = 0; j < i; j++) {
-                var tempI = (++i).toString();
-                this.items.push({
-                    height: 0,
-                    imgUrl: 'http://mobile.uzise.com/topic/mobile/uzise1111/images/640_15' + i + '.jpg',
-                    hot: []
-                });
-                // }
+                if (this.imgPath.status) {
+                    for (var j = 0; j < i; j++) {
+                        this.items.push({
+                            height: 101, // 背景图片高度
+                            imgUrl: 'http://mobile.uzise.com/topic/mobile/uzise1111/images/640_1' + j + '.jpg',
+                            hot: []
+                        });
+                    }
+                } else {
+                    this.items.push({
+                        height: 102, // 背景图片高度
+                        imgUrl: "/topic/mobile/20170101/img/img" + ++i + '.jpg',
+                        hot: []
+                    });
+                }
                 this.tempItem = _.last(this.items);
                 this.toggleTabs("tempBg");
                 setTimeout(function () {
                     if (this.editType)
                         $('.main').animate({scrollTop: $('.main .u-box').height() + 'px'}, 200);
                     else
-                        $('.main').animate({scrollTop: $('.main').height() + 'px'}, 200);
+                        $('.main').animate({scrollTop: $('.main .m-u-box').height() + 'px'}, 200);
                 }, 100);
             } else {
                 var thisHotData = {
@@ -153,27 +160,23 @@ var vm = new Vue({
         },
         exportCode: function () {
             var exportHtml = {
-                uImg: function (obj) {
-                    return "a"
-                },
-                hot: function (obj) {
+                hot: function (obj, index) {
                     var style = "";
-                    console.log(vm._data.editType);
                     if (vm._data.editType) {
                         // 计算百分比坐标
                         var percent = function bfb(a1, a2) {
-                            console.log(a1, a2);
                             var z = ((a1 / a2) * 100).toFixed(3) + "%";
                             return z;
                         };
-
-                        style = 'width: ' + percent(obj.w, 414) + '; height: ' + percent(obj.h, 526.59) + '; top: ' + percent(obj.y, 526.59) + '; left: ' + percent(obj.x, 414);
+                        var h = $('.u-img').eq(index).children(".u-bg-img").height();
+                        console.log(h);
+                        style = 'width: ' + percent(obj.w, 414) + '; height: ' + percent(obj.h, h) + '; top: ' + percent(obj.y, h) + '; left: ' + percent(obj.x, 414);
                     } else {
                         style = 'width: ' + obj.w + 'px; height: ' + obj.h + 'px; top: ' + obj.x + 'px; left: ' + obj.y + 'px';
                     }
                     var $a = $("<a>", {
                         href: ((!obj.goods.status && !obj.coupon.status && !obj.customClass.status) && obj.href) ? obj.href : "javascript:;",
-                        class: "a-son",
+                        class: "son",
                         style: style
                     });
                     // 设置领取优惠券
@@ -193,7 +196,7 @@ var vm = new Vue({
                 }
             };
 
-            var uBoxStart = '<div class="u-box">';
+            var uBoxStart = '<div' + ((this.editType) ? (' id="vm" ') : (' ')) + 'class="u-box">';
 
             var uImgStart = '   <div class="u-img">';
 
@@ -205,7 +208,7 @@ var vm = new Vue({
                 // 热区
                 var hot = this.items[i].hot;
                 for (var j = 0; j < hot.length; j++) {
-                    htmlCode += exportHtml.hot(hot[j]);
+                    htmlCode += exportHtml.hot(hot[j], i);
                 }
                 htmlCode += exportHtml.uBgImg(this.items[i]);
                 htmlCode += '   </div>\n';
@@ -233,8 +236,28 @@ var vm = new Vue({
     }
 });
 vm.init();
-function cl(item, event) {
-    console.log(event);
+function cl(item) {
     vm.toggleTabs("tempBg");
     vm._data.tempItem = item;
 }
+/*
+
+ document.onkeydown = function (event) {
+ var e = event || window.event || arguments.callee.caller.arguments[0];
+ // 按 2 添加一张背景
+ if (e && e.keyCode == 49) {
+ vm.add(1);
+ }
+ // 按 1 添加一个热区
+ if (e && e.keyCode == 50) {
+ vm.add(0, vm._data.tempItem)
+ }
+ // 按 3 复制上一个动作
+ if (e && e.keyCode == 51) {
+
+ }
+ // 按 4 保存
+ if (e && e.keyCode == 52) {
+ vm.saveCode();
+ }
+ };*/

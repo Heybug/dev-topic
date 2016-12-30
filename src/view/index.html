@@ -174,18 +174,20 @@
     </div>
 
     <div class="main " :class="{ m_mode: editType }">
-        <div class="u-box" v-if="!editType">
+        <div class="m-u-box">
+            <div v-if="editType" v-for="(bg,bgIndex) in items" class="u-img">
+                <a v-for="(hot,hotIndex) in bg.hot" @mouseover="funHot(bg,hotIndex)" href="javascript:;" class="a-hot-spots absolute"
+                   :style="{ width: hot.w + 'px', height: hot.h + 'px', top: hot.y + 'px', left: hot.x + 'px', background: hot.activeColor }"></a>
+                <img @click="cl(bg)" class="u-bg-img" :src="'http://mobile.localhost'+bg.imgUrl" alt="">
+            </div>
+        </div>
+        <div class="u-box" v-else>
             <div v-for="(bg,bgIndex) in items" class="u-img">
                 <a v-for="(hot,hotIndex) in bg.hot" @mouseover="funHot(bg,hotIndex)" href="javascript:;" class="a-hot-spots absolute"
                    :style="{ width: hot.w + 'px', height: hot.h + 'px', top: hot.y + 'px', left: hot.x + 'px', background: hot.activeColor }"></a>
                 <img @click="cl(bg)" class="u-bg-img" :src="bg.imgUrl" alt="">
             </div>
             <div class="u-clear"></div>
-        </div>
-        <div v-else v-for="(bg,bgIndex) in items" class="u-img">
-            <a v-for="(hot,hotIndex) in bg.hot" @mouseover="funHot(bg,hotIndex)" href="javascript:;" class="a-hot-spots absolute"
-               :style="{ width: hot.w + 'px', height: hot.h + 'px', top: hot.y + 'px', left: hot.x + 'px', background: hot.activeColor }"></a>
-            <img @click="cl(bg)" class="u-bg-img" :src="bg.imgUrl" alt="">
         </div>
     </div>
 </div>
