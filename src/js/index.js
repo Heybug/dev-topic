@@ -241,22 +241,28 @@ function cl(item) {
     vm._data.tempItem = item;
 }
 
-document.onkeydown = function (event) {
-    var e = event || window.event || arguments.callee.caller.arguments[0];
-    // 按 2 添加一张背景
-    if (e && e.keyCode == 49) {
-        vm.add(1);
-    }
-    // 按 1 添加一个热区
-    if (e && e.keyCode == 50) {
-        vm.add(0, vm._data.tempItem)
-    }
-    // 按 3 复制上一个动作
-    if (e && e.keyCode == 17 && e && e.keyCode == 68) {
-        alert(1);
-    }
-    // 按 4 保存
-    if (e && e.keyCode == 52) {
-        vm.saveCode();
-    }
-};
+keyboardJS.bind('a', function (e) {
+    console.log('a is pressed');
+});
+
+/*
+ document.onkeydown = function (event) {
+ var e = event || window.event || arguments.callee.caller.arguments[0];
+ // 按 2 添加一张背景
+ if (e && e.keyCode == 49) {
+ vm.add(1);
+ }
+ // 按 1 添加一个热区
+ if (e && e.keyCode == 50) {
+ vm.add(0, vm._data.tempItem)
+ }
+ // 按 3 复制上一个动作
+ if (e && e.keyCode == 17 && e && e.keyCode == 68) {
+ alert(1);
+ }
+ // 按 4 保存
+ if (e && e.keyCode == 52) {
+ vm.saveCode();
+ }
+ };
+ */
