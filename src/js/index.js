@@ -16,17 +16,18 @@ var tempHot = Vue.extend({
 });
 /** 扩展组件end **/
 
-var i = 4;
+var i = 0;
 
 var vm = new Vue({
     el: '#app',
     data: {
         index: 0,
-        editType: true, // 切换pc||mobile
+        editType: false, // 切换pc||mobile
         currentView: 'tab01', // 属性栏
         items: [], // 所有数据
         tempItem: [], // 背景数据
         hotItem: [], // 热区数据
+        copyHotItem: {}, // 保存当前热区的数据
         saveList: [], // 已保存的编辑
         imgPath: {
             status: false,
@@ -52,7 +53,7 @@ var vm = new Vue({
         toggleTabs: function (tempText) {
             this.currentView = tempText;
         },
-        add: function (type, hotData) {
+        add: function (type, hotData, copy) {
             if (type == 1) {
                 if (this.imgPath.status) {
                     for (var j = 0; j < i; j++) {
@@ -65,7 +66,7 @@ var vm = new Vue({
                 } else {
                     this.items.push({
                         height: 102, // 背景图片高度
-                        imgUrl: "/topic/mobile/20170101/img/img" + ++i + '.jpg',
+                        imgUrl: "/topic/20170104/img/img" + ++i + '.jpg',
                         hot: []
                     });
                 }
@@ -78,11 +79,16 @@ var vm = new Vue({
                         $('.main').animate({scrollTop: $('.main .m-u-box').height() + 'px'}, 200);
                 }, 100);
             } else {
+                var copy = (copy && hotData.hot.length);
+                if (copy && hotData.hot.length) {
+                    this.copyHotItem.w = _.last(hotData.hot).w;
+                    this.copyHotItem.h = _.last(hotData.hot).h;
+                }
                 var thisHotData = {
-                    w: 200,
-                    h: 100,
+                    w: (copy && hotData.hot.length > 0) ? (_.last(hotData.hot).w) : (200),
+                    h: (copy && hotData.hot.length > 0) ? (_.last(hotData.hot).h) : (100),
                     x: (this.editType) ? (106) : (200),
-                    y: (this.editType) ? (100) : (-200),
+                    y: (this.editType) ? (100) : (200),
                     href: "",
                     activeColor: "rgba(58,248,51,0.4)",
                     goods: {
@@ -172,7 +178,7 @@ var vm = new Vue({
                         console.log(h);
                         style = 'width: ' + percent(obj.w, 414) + '; height: ' + percent(obj.h, h) + '; top: ' + percent(obj.y, h) + '; left: ' + percent(obj.x, 414);
                     } else {
-                        style = 'width: ' + obj.w + 'px; height: ' + obj.h + 'px; top: ' + obj.x + 'px; left: ' + obj.y + 'px';
+                        style = 'width: ' + obj.w + 'px; height: ' + obj.h + 'px; top: ' + obj.y + 'px; left: ' + obj.x + 'px';
                     }
                     var $a = $("<a>", {
                         href: ((!obj.goods.status && !obj.coupon.status && !obj.customClass.status) && obj.href) ? obj.href : "javascript:;",
@@ -196,7 +202,7 @@ var vm = new Vue({
                 }
             };
 
-            var uBoxStart = '<div' + ((this.editType) ? (' id="vm" ') : (' ')) + 'class="u-box">';
+            var uBoxStart = '<div id="vm" class="u-box">';
 
             var uImgStart = '   <div class="u-img">';
 
@@ -241,28 +247,20 @@ function cl(item) {
     vm._data.tempItem = item;
 }
 
-keyboardJS.bind('a', function (e) {
-    console.log('a is pressed');
+hotkeys('command+a,command+b,command+d,command+s', function (event, handler) {
+    switch (handler.key) {
+        case "command+a":// 添加一个热区
+            (vm._data.items.length ) ? vm.add(0, vm._data.tempItem) : vm.add(1);
+            break;
+        case "command+b":// 添加一张背景
+            vm.add(1);
+            break;
+        case "command+d":// 复制上一个热区
+            vm.add(0, vm._data.tempItem, true);
+            break;
+        case "command+s":// 保存
+            vm.saveCode();
+            break;
+    }
+    return false;
 });
-
-/*
- document.onkeydown = function (event) {
- var e = event || window.event || arguments.callee.caller.arguments[0];
- // 按 2 添加一张背景
- if (e && e.keyCode == 49) {
- vm.add(1);
- }
- // 按 1 添加一个热区
- if (e && e.keyCode == 50) {
- vm.add(0, vm._data.tempItem)
- }
- // 按 3 复制上一个动作
- if (e && e.keyCode == 17 && e && e.keyCode == 68) {
- alert(1);
- }
- // 按 4 保存
- if (e && e.keyCode == 52) {
- vm.saveCode();
- }
- };
- */
