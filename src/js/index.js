@@ -22,7 +22,7 @@ var vm = new Vue({
     el: '#app',
     data: {
         index: 0,
-        editType: false, // 切换pc||mobile
+        editType: true, // 切换pc||mobile
         currentView: 'tab01', // 属性栏
         items: [], // 所有数据
         tempItem: [], // 背景数据
@@ -64,9 +64,11 @@ var vm = new Vue({
                         });
                     }
                 } else {
+                    // [mobile,pc]
+                    var typeURL = (this.editType) ? ("/topic/mobile/20170104/img/img") : ("/topic/20170104/img/img");
                     this.items.push({
                         height: 102, // 背景图片高度
-                        imgUrl: "/topic/20170104/img/img" + ++i + '.jpg',
+                        imgUrl: typeURL + ++i + '.jpg',
                         hot: []
                     });
                 }
@@ -90,7 +92,7 @@ var vm = new Vue({
                     x: (this.editType) ? (106) : (200),
                     y: (this.editType) ? (100) : (200),
                     href: "",
-                    activeColor: "rgba(58,248,51,0.4)",
+                    activeColor: "rgba(58,248,51,0.2)",
                     goods: {
                         status: false,
                         id: ""
@@ -175,7 +177,6 @@ var vm = new Vue({
                             return z;
                         };
                         var h = $('.u-img').eq(index).children(".u-bg-img").height();
-                        console.log(h);
                         style = 'width: ' + percent(obj.w, 414) + '; height: ' + percent(obj.h, h) + '; top: ' + percent(obj.y, h) + '; left: ' + percent(obj.x, 414);
                     } else {
                         style = 'width: ' + obj.w + 'px; height: ' + obj.h + 'px; top: ' + obj.y + 'px; left: ' + obj.x + 'px';
@@ -185,11 +186,16 @@ var vm = new Vue({
                         class: "son",
                         style: style
                     });
+                    // 跳转方式
+                    if (!vm._data.editType && obj.href)
+                        $a.attr("target", "_blank");
+
                     // 设置领取优惠券
                     if (obj.coupon.status) {
                         $a.addClass("get-coupon");
                         $a.attr("data-cid", obj.coupon.id);
                     }
+
                     // 添加自定义类
                     if (obj.customClass.status) {
                         $a.addClass(obj.customClass.class);

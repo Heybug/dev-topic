@@ -215,7 +215,7 @@ body {
 .box .a-hot-spots {
   position: absolute;
   border: 1px solid #3AF833;
-  background-color: rgba(255, 0, 0, 0.2);
+  background-color: rgba(58, 248, 51, 0.2) !important;
   outline: none;
 }
 .box button {
