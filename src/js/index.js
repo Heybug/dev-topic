@@ -18,11 +18,13 @@ var tempHot = Vue.extend({
 
 var i = 0;
 
+Vue.config.devtools = true;
 var vm = new Vue({
     el: '#app',
     data: {
         index: 0,
-        editType: true, // 切换pc||mobile
+        maskVisible: false, // 遮罩层
+        editType: (localStorage.getItem("editType") == "true") ? (true) : (false), // 切换pc||mobile
         currentView: 'tab01', // 属性栏
         items: [], // 所有数据
         tempItem: [], // 背景数据
@@ -32,7 +34,8 @@ var vm = new Vue({
         imgPath: {
             status: false,
             path: ""
-        } // 组图
+        }, // 组图
+        code: "",// 导出的源代码
     },
     //局部注册组件
     components: {
@@ -40,6 +43,10 @@ var vm = new Vue({
         tempHot: tempHot
     },
     methods: {
+        funEditType: function () {
+            vm.editType = !vm.editType;
+            localStorage.setItem('editType', vm.editType);
+        },
         init: function (obj, temp) {
             if (temp == "bg") {
                 this.toggleTabs("tempBg");
@@ -94,7 +101,7 @@ var vm = new Vue({
                     href: "",
                     activeColor: "rgba(58,248,51,0.2)",
                     goods: {
-                        status: false,
+                        status: true,
                         id: ""
                     },
                     coupon: {
@@ -168,8 +175,11 @@ var vm = new Vue({
         },
         exportCode: function () {
             var exportHtml = {
-                hot: function (obj, index) {
-                    var style = "";
+                href: function (obj) {
+                    var a = ((!obj.goods.status && !obj.coupon.status && !obj.customClass.status) && obj.href) ? obj.href : "javascript:;";
+                    return a
+                },
+                style: function (obj, index) {
                     if (vm._data.editType) {
                         // 计算百分比坐标
                         var percent = function bfb(a1, a2) {
@@ -177,18 +187,26 @@ var vm = new Vue({
                             return z;
                         };
                         var h = $('.u-img').eq(index).children(".u-bg-img").height();
-                        style = 'width: ' + percent(obj.w, 414) + '; height: ' + percent(obj.h, h) + '; top: ' + percent(obj.y, h) + '; left: ' + percent(obj.x, 414);
+                        return 'width: ' + percent(obj.w, 414) + '; height: ' + percent(obj.h, h) + '; top: ' + percent(obj.y, h) + '; left: ' + percent(obj.x, 414);
                     } else {
-                        style = 'width: ' + obj.w + 'px; height: ' + obj.h + 'px; top: ' + obj.y + 'px; left: ' + obj.x + 'px';
+                        return 'width: ' + obj.w + 'px; height: ' + obj.h + 'px; top: ' + obj.y + 'px; left: ' + obj.x + 'px';
                     }
+                },
+                hot: function (obj, index) {
                     var $a = $("<a>", {
-                        href: ((!obj.goods.status && !obj.coupon.status && !obj.customClass.status) && obj.href) ? obj.href : "javascript:;",
+                        href: exportHtml.href(obj),
                         class: "son",
-                        style: style
+                        style: exportHtml.style(obj, index)
                     });
                     // 跳转方式
                     if (!vm._data.editType && obj.href)
                         $a.attr("target", "_blank");
+
+                    // 商品
+                    if (obj.goods.status) {
+                        $a.addClass("add-to-cart");
+                        $a.attr("data-pid", obj.goods.id);
+                    }
 
                     // 设置领取优惠券
                     if (obj.coupon.status) {
@@ -229,10 +247,12 @@ var vm = new Vue({
             htmlCode += '</div>';
 
             var code = "<textarea style='width:100%;height: 300px;'>" + htmlCode + "</textarea>";
-            $.modal({
-                title: "Code",
-                text: code
-            });
+            this.code = htmlCode;
+            this.maskVisible = true;
+            /*$.modal({
+             title: "Code",
+             text: code
+             });*/
         },
         delTopic: function () {
             var name = $('select[name=save-list]').val();
@@ -244,6 +264,9 @@ var vm = new Vue({
                     localStorage.setItem("saveList", _.uniq(vm._data.saveList));
                 }
             });
+        },
+        mask: function () {
+            this.maskVisible = false;
         }
     }
 });

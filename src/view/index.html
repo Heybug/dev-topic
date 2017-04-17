@@ -123,14 +123,15 @@
         <span class="logo">
             专题布局
         </span>
-        <button class="ui-button ui-corner-all ui-widget" @click="exportCode">导出代码
-        </button>
+        <button class="ui-button ui-corner-all ui-widget" @click="exportCode">导出代码</button>
         <button class="updata-img ui-button ui-corner-all ui-widget">上传图片</button>
         <!--<button class="delDom ui-button ui-corner-all ui-widget">删除</button>-->
         <button class="ui-button ui-corner-all ui-widget" @click="delTopic">删除当前编辑</button>
         <!--<button class="ui-button ui-corner-all ui-widget" @click="importCode">导入</button>-->
         <button class="ui-button ui-corner-all ui-widget" @click="saveCode">保存</button>
-        <button class="ui-button ui-corner-all ui-widget" @click="(editType =! editType)">手机版</button>
+        <button class="ui-button ui-corner-all ui-widget" @click="funEditType">
+            手机版
+        </button>
     </div>
     <div class="ruler"></div>
     <div class="rulerV"></div>
@@ -189,6 +190,14 @@
             </div>
             <div class="u-clear"></div>
         </div>
+    </div>
+
+    <div class="code-box" v-if="maskVisible">
+        <div class="code">
+            <a href="javascript:;" v-on:click="mask" style="position: absolute; color: #000; right: 15px; top: 5px;">x</a>
+            <textarea name="code" id="" cols="30" rows="10" v-model="code"></textarea>
+        </div>
+        <div class="weui_mask weui_mask_visible" v-on:click="mask"></div>
     </div>
 </div>
 
