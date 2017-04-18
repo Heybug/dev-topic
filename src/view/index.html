@@ -192,7 +192,7 @@
         </div>
     </div>
 
-    <div class="code-box" v-if="maskVisible">
+    <div class="code-box" v-cloak v-if="maskVisible">
         <div class="code">
             <a href="javascript:;" v-on:click="mask" style="position: absolute; color: #000; right: 15px; top: 5px;">x</a>
             <textarea name="code" id="" cols="30" rows="10" v-model="code"></textarea>
