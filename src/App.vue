@@ -11,16 +11,13 @@
             <div id="ruler" @click.self="funRuler">
                 <span v-for="(item,i) in rulerData.scale" :style="{left:item.left+'px'}">{{item.txt}}</span>
             </div>
-            <div class="rulerV" @click="alert(1);" :style="{left:rulerData.x+'px'}"></div>
+            <div class="rulerV" @click="rmRuler" :style="{left:rulerData.x+'px'}"></div>
         </nav>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-    import jquery from './assets/js/jquery-2.1.4'
-    import ruler from './assets/js/ruler.js'
-
     export default {
         name: 'app',
         data () {
@@ -43,14 +40,16 @@
                 console.log(wRuler);
                 for (var i = 0; i < wRuler; i += 50) {
                     this.rulerData.scale.push({txt: i, left: i});
-                    //                scale += "<span style='left:" + i + "px;'>" + i + "</span>"
                 }
             })
         },
         methods: {
             // 标尺
             funRuler: function (event) {
-                this.rulerData.x = event.layerX + 34;
+                this.rulerData.x = event.layerX + 35;
+            },
+            rmRuler: function () {
+                this.rulerData.x = -1;
             },
             open() {
                 this.$alert('这是一段内容', '测试🦉', {
@@ -144,6 +143,7 @@
 
     .rulerV {
         position: fixed;
+        cursor: pointer;
         width: 1px;
         height: 100%;
         top: 80px;
