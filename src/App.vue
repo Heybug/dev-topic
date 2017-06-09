@@ -1,34 +1,19 @@
 <template>
     <div id="app">
-        <!--<img src="./assets/logo.png">-->
-        <div id="mty">🦉</div>
+        <nav>
+            <div id="mty">🦉</div>
+            <span class="wrapper">
+                <el-button type="success">成功按钮</el-button>
+                <el-button type="warning">警告按钮</el-button>
+                <el-button type="danger">危险按钮</el-button>
+                <el-button type="info">信息按钮</el-button>
+            </span>
+        </nav>
         <router-view></router-view>
-        <el-button type="text" @click="open">点击打开 Message Box</el-button>
-
-        <el-radio class="radio" v-model="radio" label="🦉">🦉</el-radio>
-        <el-radio class="radio" v-model="radio" label="1">备选项</el-radio>
-
-        <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
-
-        <div class="swicth">
-            <el-switch
-                    v-model="value1"
-                    on-text=""
-                    off-text="">
-            </el-switch>
-            <el-switch
-                    v-model="value2"
-                    on-color="#13ce66"
-                    off-color="#ff4949">
-            </el-switch>
-        </div>
     </div>
 </template>
 
 <script>
-    /*export default {
-     name: 'app'
-     }*/
     export default {
         name: 'app',
         data () {
@@ -37,6 +22,8 @@
                 num1: 12,
                 value1: true,
                 value2: false,
+                activeIndex: '1',
+                activeIndex2: '1'
             };
         },
         methods: {
@@ -53,22 +40,49 @@
             },
             handleChange(value) {
                 console.log(value);
+            },
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
             }
         }
     }
 </script>
 
 <style>
-    #mty {
-        font-size: 120px;
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        background-color: #48576a;
     }
 
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    nav {
+        position: relative;
+        height: 80px;
+        background: #1f2d3d;
+    }
+
+    #mty {
+        font-size: 60px;
+        width: 150px;
+        height: 100%;
         text-align: center;
-        color: #2c3e50;
-        margin-top: 60px;
+        float: left;
+    }
+
+    .wrapper {
+        float: right;
+        height: 80px;
+        line-height: 80px;
     }
 </style>
