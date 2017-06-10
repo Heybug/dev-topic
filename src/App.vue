@@ -2,13 +2,13 @@
     <div id="app">
         <nav>
             <div id="mty">专题制作</div>
-            <span class="wrapper">
-                <el-button type="success">成功按钮</el-button>
-                <el-button type="warning">警告按钮</el-button>
-                <el-button type="danger">危险按钮</el-button>
-                <el-button type="info">信息按钮</el-button>
-            </span>
-            <div id="ruler" @click.self="funRuler">
+            <div class="wrapper">
+                <el-button type="primary" size="small">保存</el-button>
+                <el-button type="primary" size="small">导入</el-button>
+                <el-button type="primary" size="small">构建</el-button>
+            </div>
+            <div id="ruler">
+                <i @click="funRuler"></i>
                 <span v-for="(item,i) in rulerData.scale" :style="{left:item.left+'px'}">{{item.txt}}</span>
             </div>
             <div class="rulerV" @click="rmRuler" :style="{left:rulerData.x+'px'}"></div>
@@ -72,7 +72,12 @@
     }
 </script>
 
-<style>
+<style lang="less">
+    @color1: #303030;
+    @color2: #434a54;
+
+    @navHeight: 50px;
+
     * {
         margin: 0;
         padding: 0;
@@ -81,7 +86,8 @@
     html, body {
         width: 100%;
         height: 100%;
-        background-color: #434a54;
+        background-color: @color2;
+        overflow: hidden;
     }
 
     #app {
@@ -92,35 +98,35 @@
 
     nav {
         position: relative;
-        height: 80px;
-        background: #303030;
-    }
-
-    nav:after {
-        position: absolute;
-        content: '';
-        display: block;
-        width: 100%;
-        height: 1px;
-        background-color: #000;
-        left: 0;
-        bottom: 0;
+        height: @navHeight;
+        background: @color1;
+        &:after {
+            position: absolute;
+            content: '';
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: #000;
+            left: 0;
+            bottom: 0;
+        }
     }
 
     #mty {
         width: 200px;
         height: 100%;
-        line-height: 80px;
+        line-height: @navHeight;
         text-align: center;
-        font-size: 30px;
+        font-size: 25px;
         color: #fff;
         float: left;
     }
 
     .wrapper {
         float: right;
-        height: 80px;
-        line-height: 80px;
+        height: @navHeight;
+        line-height: @navHeight;
+        margin-right: 50px;
     }
 
     #ruler {
@@ -128,17 +134,26 @@
         cursor: pointer;
         width: 100%;
         height: 18px;
-        top: 80px;
+        top: @navHeight;
+        left: 0;
+        right: 0;
         margin-left: 35px;
         background: #303030 url(./assets/ruler.gif);
         background-position: 1px -82px;
-    }
-
-    #ruler span {
-        position: absolute;
-        top: -1px;
-        color: #bdbdbd;
-        font-size: 12px;
+        i {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        span {
+            position: absolute;
+            top: -1px;
+            color: #bdbdbd;
+            font-size: 12px;
+        }
     }
 
     .rulerV {
@@ -146,8 +161,9 @@
         cursor: pointer;
         width: 1px;
         height: 100%;
-        top: 80px;
+        top: @navHeight;
         left: -1px;
+        z-index: 2;
         background-color: #3af833;
         transition: left .3s;
     }
