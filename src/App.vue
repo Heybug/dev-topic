@@ -14,6 +14,7 @@
             <div class="rulerV" @click="rmRuler" :style="{left:rulerData.x+'px'}"></div>
         </nav>
         <router-view></router-view>
+        <div id="main-content">main</div>
     </div>
 </template>
 
@@ -73,98 +74,5 @@
 </script>
 
 <style lang="less">
-    @color1: #303030;
-    @color2: #434a54;
-
-    @navHeight: 50px;
-
-    * {
-        margin: 0;
-        padding: 0;
-    }
-
-    html, body {
-        width: 100%;
-        height: 100%;
-        background-color: @color2;
-        overflow: hidden;
-    }
-
-    #app {
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
-
-    nav {
-        position: relative;
-        height: @navHeight;
-        background: @color1;
-        &:after {
-            position: absolute;
-            content: '';
-            display: block;
-            width: 100%;
-            height: 1px;
-            background-color: #000;
-            left: 0;
-            bottom: 0;
-        }
-    }
-
-    #mty {
-        width: 200px;
-        height: 100%;
-        line-height: @navHeight;
-        text-align: center;
-        font-size: 25px;
-        color: #fff;
-        float: left;
-    }
-
-    .wrapper {
-        float: right;
-        height: @navHeight;
-        line-height: @navHeight;
-        margin-right: 50px;
-    }
-
-    #ruler {
-        position: absolute;
-        cursor: pointer;
-        width: 100%;
-        height: 18px;
-        top: @navHeight;
-        left: 0;
-        right: 0;
-        margin-left: 35px;
-        background: #303030 url(./assets/ruler.gif);
-        background-position: 1px -82px;
-        i {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-        span {
-            position: absolute;
-            top: -1px;
-            color: #bdbdbd;
-            font-size: 12px;
-        }
-    }
-
-    .rulerV {
-        position: fixed;
-        cursor: pointer;
-        width: 1px;
-        height: 100%;
-        top: @navHeight;
-        left: -1px;
-        z-index: 2;
-        background-color: #3af833;
-        transition: left .3s;
-    }
+    @import "assets/less/app.less";
 </style>
