@@ -22,7 +22,7 @@
 
     .tool-bar {
         position: fixed;
-        top: @navHeight2;
+        top: 50px;
         bottom: 0;
         width: 35px;
         display: flex;
