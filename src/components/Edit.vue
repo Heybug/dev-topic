@@ -18,6 +18,10 @@
             // 在组件 B 创建的钩子中监听事件
             window.bus.$on('id-selected', function (id) {
                 edit.images = id;
+                setTimeout(function () {
+                    var editDom = document.getElementById('topic-edit-wrap');
+                    editDom.scrollTop = editDom.scrollHeight;
+                }, 200);
             })
         },
         methods: {
