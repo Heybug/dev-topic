@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul class="tool-bar">
-            <li v-for="item in toolbar">{{item}}</li>
+            <li @click="addBackgroundImg" v-for="item in toolbar">{{item}}</li>
         </ul>
     </div>
 </template>
@@ -14,7 +14,14 @@
                 toolbar: ['图片', '热区']
             }
         },
-        methods: {}
+        methods: {
+            addBackgroundImg: function () {
+                this.$message({
+                    type: 'success',
+                    message: `测试添加背景图片`
+                });
+            }
+        }
     }
 </script>
 

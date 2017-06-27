@@ -3,7 +3,7 @@
         <nav>
             <div id="mty">专题制作</div>
             <div class="wrapper">
-                <el-button type="primary" size="small">保存</el-button>
+                <el-button type="primary" size="small" @click="open">保存</el-button>
                 <el-button type="primary" size="small">导入</el-button>
                 <el-button type="primary" size="small">构建</el-button>
             </div>
@@ -13,12 +13,17 @@
             </div>
             <div class="rulerV" @click="rmRuler" :style="{left:rulerData.x+'px'}"></div>
         </nav>
+        <!--工具栏-->
         <router-view></router-view>
-        <div id="main-content">main</div>
+        <!--工具栏-->
+
+        <Edit></Edit>
     </div>
 </template>
 
 <script>
+    import Edit from './components/edit.vue'
+
     export default {
         name: 'app',
         data () {
@@ -35,10 +40,10 @@
                 activeIndex2: '1'
             };
         },
+        components: {Edit},
         beforeCreate: function () {
             this.$nextTick(function () {
                 var wRuler = document.getElementById('ruler').offsetWidth;
-                console.log(wRuler);
                 for (var i = 0; i < wRuler; i += 50) {
                     this.rulerData.scale.push({txt: i, left: i});
                 }
@@ -53,15 +58,16 @@
                 this.rulerData.x = -1;
             },
             open() {
-                this.$alert('这是一段内容', '测试🦉', {
-                    confirmButtonText: '确定',
-                    callback: action => {
-                        this.$message({
-                            type: 'success',
-                            message: `🦉: hello world!`
-                        });
-                    }
+                this.$message({
+                    type: 'success',
+                    message: `已保存`
                 });
+                /*this.$alert('这是一段内容', '测试🦉', {
+                 confirmButtonText: '确定',
+                 callback: action => {
+
+                 }
+                 });*/
             },
             handleChange(value) {
                 console.log(value);

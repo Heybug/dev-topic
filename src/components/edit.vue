@@ -1,0 +1,27 @@
+<template>
+    <div id="topic-edit-wrap" @click="addBackgroundImg">
+        <img :src="'http://www.omicy.com/assets/pc/20170627/img'+index+'.jpg'" :alt="index" v-for="(item,index) in images" v-if="index>0">
+    </div>
+</template>
+
+<script>
+    export default {
+        name: 'topic-edit',
+        data () {
+            return {
+                images: 2,
+                msg: 'edit wrap'
+            }
+        },
+        methods: {
+            addBackgroundImg: function () {
+                this.images++;
+            }
+        }
+    }
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="less">
+    @import "../assets/less/edit.less";
+</style>
