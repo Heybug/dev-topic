@@ -1,6 +1,6 @@
 <template>
     <div id="topic-edit-wrap" @click="addBackgroundImg">
-        <img :src="'http://www.omicy.com/assets/pc/20170627/img'+index+'.jpg'" :alt="index" v-for="(item,index) in images" v-if="index>0">
+        <img :src="'http://www.omicy.com/assets/pc/20170627/img'+index+'.jpg'" alt="" v-for="(item,index) in images" v-if="index>0">
     </div>
 </template>
 
@@ -13,9 +13,16 @@
                 msg: 'edit wrap'
             }
         },
+        created: function () {
+            var edit = this;
+            // 在组件 B 创建的钩子中监听事件
+            window.bus.$on('id-selected', function (id) {
+                edit.images = id;
+            })
+        },
         methods: {
             addBackgroundImg: function () {
-                this.images++;
+//                this.images++;
             }
         }
     }

@@ -13,16 +13,20 @@
             </div>
             <div class="rulerV" @click="rmRuler" :style="{left:rulerData.x+'px'}"></div>
         </nav>
-        <!--工具栏-->
+        <!--工具栏组件-->
         <router-view></router-view>
-        <!--工具栏-->
 
+        <!--专题编辑组件-->
         <Edit></Edit>
+
+        <!--属性面板-->
+        <Attribute></Attribute>
     </div>
 </template>
 
 <script>
-    import Edit from './components/edit.vue'
+    import Edit from './components/Edit.vue'
+    import Attribute from './components/Attribute.vue'
 
     export default {
         name: 'app',
@@ -40,7 +44,7 @@
                 activeIndex2: '1'
             };
         },
-        components: {Edit},
+        components: {Edit, Attribute},
         beforeCreate: function () {
             this.$nextTick(function () {
                 var wRuler = document.getElementById('ruler').offsetWidth;
@@ -58,16 +62,7 @@
                 this.rulerData.x = -1;
             },
             open() {
-                this.$message({
-                    type: 'success',
-                    message: `已保存`
-                });
-                /*this.$alert('这是一段内容', '测试🦉', {
-                 confirmButtonText: '确定',
-                 callback: action => {
 
-                 }
-                 });*/
             },
             handleChange(value) {
                 console.log(value);
