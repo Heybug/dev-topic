@@ -10,10 +10,27 @@
     left: 35px;
     right: 250px;
     bottom: 0;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     background: @color2;
+    .topic-image-wrap {
+        position: relative;
+        float: left;
+        left: 50%;
+        text-align: center;
+        &:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+        .txt-demo {
+            position: absolute;
+            top: 0;
+        }
+    }
     img {
+        position: relative;
+        left: -50%;
         display: block;
-        width: 100%;
     }
 }

@@ -1,10 +1,16 @@
 <template>
-    <div id="topic-edit-wrap" @click="addBackgroundImg">
-        <img :src="'http://www.omicy.com/assets/pc/20170627/img'+index+'.jpg'" alt="" v-for="(item,index) in images" v-if="index>0">
+    <div id="topic-edit-wrap">
+        <div class="topic-content-wrap">
+            <div class="topic-image-wrap" @click.stop="thisImage" v-for="(item,index) in images" v-if="index>0">
+                <img :src="'http://www.omicy.com/assets/pc/20170627/img'+index+'.jpg'" alt="">
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import $ from 'jquery'
+
     export default {
         name: 'topic-edit',
         data () {
@@ -14,7 +20,7 @@
             }
         },
         created: function () {
-            var edit = this;
+            let edit = this;
             // 在组件 B 创建的钩子中监听事件
             window.bus.$on('id-selected', function (id) {
                 edit.images = id;
@@ -25,8 +31,12 @@
             })
         },
         methods: {
-            addBackgroundImg: function () {
-//                this.images++;
+            thisImage: function (event) {
+
+                var $dom = $(event.target).parent();
+                $dom.append("<p class='txt-demo'>lkl</P>");
+
+                console.log($dom);
             }
         }
     }

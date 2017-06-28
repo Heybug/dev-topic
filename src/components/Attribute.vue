@@ -1,6 +1,6 @@
 <template>
-    <div id="div-wrap">
-        hello template
+    <div id="div-wrap" class="after">
+        <p @click="addBackgroundImg">hello template</p>
     </div>
 </template>
 

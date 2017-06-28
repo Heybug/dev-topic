@@ -6,10 +6,21 @@
 #div-wrap {
     position: fixed;
     width: 250px;
-    top: 50px;
+    top: 68px;
     right: 0;
     bottom: 0;
     z-index: 100;
     color: #fff;
     background: @color1;
+    p {
+        text-align: center;
+        margin-top: 130px;
+    }
+    &:after {
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 100%;
+        background: @color3;
+    }
 }
